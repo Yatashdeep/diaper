@@ -111,8 +111,9 @@ exports.password_reset=(req,res,next)=>{
           token+=chars_key[Math.round(Math.random()*(chars_key.length-1))];
          }
          var content_body1 = '<p>We heard that you lost your Diaper Change password,don’t worry! You can use the following link to reset your password.</p>';
-         var content_body2  = '<p>If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit <a href="http://localhost:3000/reset_password?key='+token+'&id='+result._id+'">http://localhost:3000/reset_password</a></p><p>Thanks</p><p>Your friends at Diaper Change Team</p>'; 
-         var content_body=content_body1+content_body2;
+        //  var content_body2  = '<p>If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit <a href="http://localhost:3000/reset_password?key='+token+'&id='+result._id+'">http://localhost:3000/reset_password</a></p><p>Thanks</p><p>Your friends at Diaper Change Team</p>'; 
+        var content_body2  = '<p>If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit <a href="https://diaperchange.herokuapp.com/reset_password?key='+token+'&id='+result._id+'">https://diaperchange.herokuapp.com/reset_password</a></p><p>Thanks</p><p>Your friends at Diaper Change Team</p>'; 
+        var content_body=content_body1+content_body2;
          var mailoptions={
              from:'scavanger@gmail.com',
              to: result.email,
