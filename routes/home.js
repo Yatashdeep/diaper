@@ -7,5 +7,9 @@ router.get('/',(requestAnimationFrame,res)=>{
     // res.redirect('/start');
    res.send('server up..')  
 })
-router.post('/login',userapi.user_signup)
+router.post('/signup',userapi.user_signup)
+router.post('/login',userapi.user_login)
+router.post('/password_reset',userapi.password_reset)
+router.get('/reset_password',userapi.resetpassword)
+router.post('/password_match',userapi.password_match)
 module.exports=router

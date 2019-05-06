@@ -19,6 +19,8 @@ const userSchema=mongoose.Schema({
         type:Date,
         default: Date.now
     },
+    token_key:{type: String},
+    token_expire:{type: String},
     status:{type:Number,default:1}
 })
 module.exports=mongoose.model('user',userSchema)
