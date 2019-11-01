@@ -25,8 +25,8 @@ app.use('/',home);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
 app.use(morgan('dev'));
-
-const dba='mongodb://yatash:vishal786@ds151076.mlab.com:51076/diaperchange'
+const dba = 'mongodb://yatash:yatash1@ds113169.mlab.com:13169/scvanger'
+//const dba='mongodb://yatash:vishal786@ds151076.mlab.com:51076/diaperchange'
 mongoose.connect(dba,{useNewUrlParser:true},function(error){
     if(error) console.log(error);
     console.log("connection successful")
