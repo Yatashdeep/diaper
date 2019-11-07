@@ -50,6 +50,22 @@ exports.user_signup=(req,res,next)=>{
         }
     })
 }
+exports.user_detail=(req,res,next)=>{
+ 
+    users.find().exec().then(user=>{
+        console.log(user)
+         return res.status(200).json({
+         message:user
+         });
+    }).catch(err=>{
+        return res.status(200).json({
+            message:err
+            });
+    })
+   
+ 
+}
+
 exports.user_login=(req,res,next)=>{
     users.findOne({email:req.body.email})
     .exec()
