@@ -1,10 +1,12 @@
 const users=require('../models/user');
+const ratings=require('../models/rating')
 const mongoose=require('mongoose');
 const nodemailer=require('nodemailer')
 const bodyParser = require('body-parser');
 const express=require('express')
 const app=express();
 const morgan = require('morgan');
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.set('view engine','ejs');
@@ -49,6 +51,39 @@ exports.user_signup=(req,res,next)=>{
              
         }
     })
+}
+exports.rating=(req,res,next)=>{
+ 
+    console.log('type'+req.body.type)
+
+    const rating=new ratings({
+        _id:mongoose.Types.ObjectId(),
+        type:req.body.type,
+        change_table:req.body.change_table,
+        hooks_in_change_room:req.body.hooks_in_change_room,
+        childers_toilet:req.body.childers_toilet,
+        stroller_friendly:req.body.stroller_friendly,
+        nursing:req.body.nursing,
+        star_rating:req.body.star_rating,
+        array_img:req.body.array_img,
+        userid:req.body.userid,
+        detailaddress:req.body.detailaddress,
+        location:req.body.location
+        
+    })
+   
+    rating.save().then(result=>{
+        res.status(200).json({
+            message:'Rating  Created'
+        });
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error:err
+             });
+    })
+    
+   
 }
 exports.user_detail=(req,res,next)=>{
  

@@ -13,4 +13,6 @@ router.post('/password_reset',userapi.password_reset)
 router.get('/reset_password',userapi.resetpassword)
 router.post('/password_match',userapi.password_match)
 router.get('/user_detail',userapi.user_detail)
+router.post('/rating',userapi.rating)
+
 module.exports=router
