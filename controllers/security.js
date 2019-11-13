@@ -116,7 +116,8 @@ exports.user_login=(req,res,next)=>{
                 gender:user.gender,
                 mobile:user.mobile,
                 email:user.email,
-                Children:user.Children
+                Children:user.Children,
+                user_id:user._id
         }
        return res.status(200).json({
            message:'logged in',
