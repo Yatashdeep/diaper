@@ -14,5 +14,5 @@ router.get('/reset_password',userapi.resetpassword)
 router.post('/password_match',userapi.password_match)
 router.get('/user_detail',userapi.user_detail)
 router.post('/rating',userapi.rating)
-
+router.get('/fetch_rating',userapi.fetch_rating)
 module.exports=router
