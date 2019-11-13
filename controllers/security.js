@@ -86,20 +86,28 @@ exports.rating=(req,res,next)=>{
    
 }
 exports.fetch_rating=(req,res,next)=>{
-   ratings.find().exec().then(data=>{
-       return res.status(200).json({
-           message:data
-       })
-   }).catch(err=>{
-    return res.status(200).json({
-        message:err
-        }); 
-   })
+
+  
+     ratings.find().populate('userid').exec().then(data=>{
+          return res.status(200).json({
+              message:data
+          })         
+     }).catch(err=>{
+         return res.status(200).json({
+             message:err
+         })
+     })
+     
+
+
+
+
+
 }
 exports.user_detail=(req,res,next)=>{
  
     users.find().exec().then(user=>{
-        console.log(user)
+        
          return res.status(200).json({
          message:user
          });
