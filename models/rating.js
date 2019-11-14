@@ -7,11 +7,11 @@ const ratingSchema=moongoose.Schema({
         neutral:String,
         children:String
     }],
-    change_table:{type:String,required:true,minlength:3,maxlength:15,trim:true},
-    hooks_in_change_room:{type:String,required:true,minlength:3,maxlength:15,trim:true},
-    childers_toilet:{type:String,required:true,minlength:3,maxlength:15,trim:true},
-    stroller_friendly:{type:String,required:true,minlength:3,maxlength:15,trim:true},
-    nursing:{type:String,required:true,minlength:3,maxlength:15,trim:true},
+    change_table:{type:String,required:true,minlength:0,maxlength:15,trim:true},
+    hooks_in_change_room:{type:String,required:true,minlength:0,maxlength:15,trim:true},
+    childers_toilet:{type:String,required:true,minlength:0,maxlength:15,trim:true},
+    stroller_friendly:{type:String,required:true,minlength:0,maxlength:15,trim:true},
+    nursing:{type:String,required:true,minlength:0,maxlength:15,trim:true},
     star_rating:{type:String,required:true,minlength:0,maxlength:15,trim:true},
     array_img:[{
         Image : String
@@ -21,7 +21,7 @@ const ratingSchema=moongoose.Schema({
         ref:"user",
         required:true
     },
-    detailaddress:{type:String,required:true,minlength:3,maxlength:15,trim:true},
+    detailaddress:{type:String,required:true,minlength:3,maxlength:75,trim:true},
     location:[{
         lat:String,
         lng:String
