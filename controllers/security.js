@@ -1,9 +1,11 @@
 const users=require('../models/user');
-const ratings=require('../models/rating')
+const ratings=require('../models/rating');
+const recentview=require('../models/recentview');
+const recentviewtest=require('../models/recentviewtest');
 const mongoose=require('mongoose');
-const nodemailer=require('nodemailer')
+const nodemailer=require('nodemailer');
 const bodyParser = require('body-parser');
-const express=require('express')
+const express=require('express'); 
 const app=express();
 const morgan = require('morgan');
 
@@ -11,6 +13,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.set('view engine','ejs');
 app.use(morgan('dev'));
+
 exports.user_signup=(req,res,next)=>{
     console.log('email'+req.body.email)
   
@@ -52,10 +55,62 @@ exports.user_signup=(req,res,next)=>{
         }
     })
 }
-exports.rating=(req,res,next)=>{
- 
-    console.log('type'+req.body.type)
 
+exports.recent_view=(req,res,next)=>{  
+            const user=new recentview({ detailaddress:req.body.detailaddress,location:req.body.location }); 
+            user.save().then(result=>{
+                return res.status(200).json({   message:'success message'  });
+            }).catch(err=>{
+                return  res.status(500).json({   error:err   });
+            }) 
+}  
+
+exports.recent_viewtest=(req,res,next)=>{   
+    console.log("req.body.userid=",req.body.detailaddress); console.log("req.body.location=",req.body.location);
+    recentviewtest.find({ detailaddress:req.body.detailaddress ,loclat:req.body.location[0].lat,loclng:req.body.location[0].lng}).exec().then(user=>{ 
+        console.log("user=",user);
+        console.log("user length=",user.length);
+        if(user.length !=0)  { 
+            return res.status(200).json({   message:"Already exist"  }); 
+        }
+        else{
+           const user=new recentviewtest({  detailaddress:req.body.detailaddress,location:req.body.location,loclat:req.body.location[0].lat,loclng:req.body.location[0].lng  });
+            user.save().then(result=>{
+                return res.status(200).json({   message:'success message'  });
+            }).catch(err=>{
+                return  res.status(500).json({   error:err   });
+            }) 
+        }
+    })
+} 
+
+exports.recent_viewtest_fetch=(req,res,next)=>{   
+    recentviewtest.find({ detailaddress:req.body.detailaddress }).exec().then(data=>{
+        return res.status(200).json({  message:data   });          
+    }).catch(err=>{
+       return res.status(200).json({  message:err  });
+    })   
+    }
+  
+exports.recent_view_fetch=(req,res,next)=>{   
+recentview.find({ detailaddress:req.body.userid }).exec().then(data=>{
+    return res.status(200).json({  message:data   });          
+}).catch(err=>{
+   return res.status(200).json({  message:err  });
+})   
+}
+
+exports.recent_view_delete=(req,res,next)=>{   
+    recentview.find().remove().exec().then(data=>{ 
+        return res.status(200).json({  message:data   });          
+    }).catch(err=>{   
+       return res.status(200).json({  message:err  });
+    })  
+}
+
+
+exports.rating=(req,res,next)=>{  
+    console.log('type'+req.body.type)
     const rating=new ratings({
         _id:mongoose.Types.ObjectId(),
         type:req.body.type,
@@ -86,8 +141,6 @@ exports.rating=(req,res,next)=>{
    
 }
 exports.fetch_rating=(req,res,next)=>{
-
-  
      ratings.find().populate('userid').exec().then(data=>{
           return res.status(200).json({
               message:data
@@ -97,13 +150,8 @@ exports.fetch_rating=(req,res,next)=>{
              message:err
          })
      })
-     
-
-
-
-
-
 }
+
 exports.user_detail=(req,res,next)=>{
  
     users.find().exec().then(user=>{
@@ -120,7 +168,35 @@ exports.user_detail=(req,res,next)=>{
  
 }
 
-exports.user_login=(req,res,next)=>{
+exports.user_detailByID=(req,res,next)=>{  
+    users.find({_id:req.body.userid}).exec().then(user=>{
+         return res.status(200).json({ message:user });
+    }).catch(err=>{
+        return res.status(200).json({ message:err  });
+    })
+}
+
+exports.user_detailUpByID=(req,res,next)=>{     
+    users.findOne({_id:req.body.userid}).exec().then(doc=>{
+        doc.firstname = req.body.firstname;
+        doc.lastname = req.body.lastname;
+        doc.birth = req.body.birth;
+        doc.gender = req.body.gender;
+        doc.mobile =req.body.mobile;
+        doc.email = req.body.email;
+        doc.save(); 
+        users.find({_id:req.body.userid}).exec().then(user=>{
+            return res.status(200).json({ message:"Your profile updated successfully.",getdata:user,status:1 });
+       }).catch(err=>{
+            return res.status(200).json({ message:"Your profile updated successfully.",getdata:err,status:0 });
+       })  
+    }).catch(err=>{
+        return res.status(200).json({ message:"Please try again later",status:0  }); 
+    })
+}
+
+
+exports.user_login=(req,res,next)=>{ 
     users.findOne({email:req.body.email})
     .exec()
     .then(user=>{

@@ -29,7 +29,7 @@ const dba = 'mongodb://yatash:yatash1@ds113169.mlab.com:13169/scvanger'
 //const dba='mongodb://yatash:vishal786@ds151076.mlab.com:51076/diaperchange'
 mongoose.connect(dba,{useNewUrlParser:true},function(error){
     if(error) console.log(error);
-    console.log("connection successful")
+    console.log("connection successful"); 
 })
 mongoose.set('useCreateIndex',true)
 var db=mongoose.connection
