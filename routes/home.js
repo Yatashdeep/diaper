@@ -20,7 +20,7 @@ router.post('/recent_view_fetch',userapi.recent_view_fetch)
 router.post('/recent_view_delete',userapi.recent_view_delete) 
 router.post('/user_detailbyid',userapi.user_detailByID);
 router.post('/user_detailupdatebyid',userapi.user_detailUpByID); 
-
+router.post('/sendnotification',userapi.sendnotification);
 router.post('/recent_viewtest',userapi.recent_viewtest);   // only for development purpose
 router.post('/recent_viewtest_fetch',userapi.recent_viewtest_fetch);   // only for development purpose
 

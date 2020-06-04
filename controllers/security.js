@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const express=require('express'); 
 const app=express();
 const morgan = require('morgan');
-
+const OneSignal = require('onesignal-node'); 
+const client = new OneSignal.Client('92fe35fc-12d2-4a88-96e8-97155d318f65', 'MGY5ZDcxZDgtMmMzOS00Nzc3LThiYTItMmMwMmQ3M2M1MDI5');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.set('view engine','ejs');
@@ -55,7 +56,69 @@ exports.user_signup=(req,res,next)=>{
         }
     })
 }
-
+// exports.sendnotification=(req,res,next)=>{
+//     const notification = {
+//         contents: {
+//           'tr': 'Yeni bildirim',
+//           'en': 'New notification',
+//         },
+//         included_segments: ['Subscribed Users'],
+//         filters: [
+//           { field: 'tag', key: 'level', relation: '>', value: 10 }
+//         ]
+//       };
+       
+//       // using async/await
+     
+       
+//       // or you can use promise style:
+//       client.createNotification(notification)
+//         .then(response => {
+//             //console.log('res'+response)
+//             return res.status(200).json({  message:response,id:'msg'   });    
+          
+//         })
+//         .catch(e => {
+//             return res.status(200).json({  message:e   }); 
+//         });
+// }
+exports.sendnotification=(req,res,next)=>{
+    var sendNotification = function(data) {
+    var headers = {
+    "Content-Type": "application/json; charset=utf-8",
+    "Authorization": "Basic MGY5ZDcxZDgtMmMzOS00Nzc3LThiYTItMmMwMmQ3M2M1MDI5"
+    };
+    var options = {
+    host: "onesignal.com",
+    port: 443,
+    path: "/api/v1/notifications",
+    method: "POST",
+    headers: headers
+    };
+    var https = require('https');
+    var reqSig = https.request(options, function(resSig) {
+    resSig.on('data', function(data) {
+    console.log("Response:");
+    console.log(JSON.parse(data));
+    return res.status(200).json({ status:"success", message:"message sent to device." });
+    });
+    });
+    reqSig.on('error', function(e) {
+    console.log("ERROR:");
+    console.log(e);
+    return res.status(200).json({ status:"ERROR", message:e });
+    });
+    reqSig.write(JSON.stringify(data));
+    reqSig.end();
+    };
+    var message = {
+    app_id: "92fe35fc-12d2-4a88-96e8-97155d318f65",
+    headings:{"en":req.body.heading},
+    contents:{"en":req.body.content},
+    included_segments: ["Active Users"]
+    };
+    sendNotification(message);
+    }
 exports.recent_view=(req,res,next)=>{  
             const user=new recentview({ detailaddress:req.body.detailaddress,location:req.body.location }); 
             user.save().then(result=>{
