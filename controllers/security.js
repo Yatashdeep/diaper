@@ -9,7 +9,7 @@ const express=require('express');
 const app=express();
 const morgan = require('morgan');
 const OneSignal = require('onesignal-node'); 
-const client = new OneSignal.Client('92fe35fc-12d2-4a88-96e8-97155d318f65', 'MGY5ZDcxZDgtMmMzOS00Nzc3LThiYTItMmMwMmQ3M2M1MDI5');
+const client = new OneSignal.Client('5c5df3b5-9d48-4035-8e5b-7357ca8f91f6', 'YzFkNTdiYmYtOTVkMS00YmZjLThkMGItMDE1ZWEwMDVjN2Ez');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.set('view engine','ejs');
@@ -86,7 +86,7 @@ exports.sendnotification=(req,res,next)=>{
     var sendNotification = function(data) {
     var headers = {
     "Content-Type": "application/json; charset=utf-8",
-    "Authorization": "Basic MGY5ZDcxZDgtMmMzOS00Nzc3LThiYTItMmMwMmQ3M2M1MDI5"
+    "Authorization": "Basic YzFkNTdiYmYtOTVkMS00YmZjLThkMGItMDE1ZWEwMDVjN2Ez"
     };
     var options = {
     host: "onesignal.com",
@@ -112,7 +112,7 @@ exports.sendnotification=(req,res,next)=>{
     reqSig.end();
     };
     var message = {
-    app_id: "92fe35fc-12d2-4a88-96e8-97155d318f65",
+    app_id: "5c5df3b5-9d48-4035-8e5b-7357ca8f91f6",
     headings:{"en":req.body.heading},
     contents:{"en":req.body.content},
     included_segments: ["Active Users"]
